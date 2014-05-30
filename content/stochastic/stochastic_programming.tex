@@ -1,0 +1,403 @@
+\documentclass[12pt,handout]{beamer}
+
+%\documentclass{beamer}
+\usetheme{Boadilla}
+\useoutertheme{split}
+\usepackage{fancyvrb}
+\usepackage{tikz}
+\usepackage{svg}
+\usetikzlibrary{shapes, calc, shapes, arrows, datavisualization}
+
+\usepackage{amsmath,amssymb}
+
+\definecolor{myblue}{RGB}{80,80,160}
+\definecolor{mygreen}{RGB}{80,160,80}
+
+
+\title{Stochastic Programming}
+\author{Abr\`emod Training}
+\titlegraphic{\includegraphics[scale=0.1]{abremodlogo.png}}
+
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\frametitle{Stochastic Programming}
+\begin{itemize}
+\item Linear Programming Axioms
+\begin{itemize}
+\item Additivity
+\item Proportionality
+\item Divisibility
+\item {\color{red} Certainty}
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Stochastic Programming}
+\begin{eqnarray}
+z^* = \min_{x} && c x \nonumber \\
+\mbox{s.t.} && Ax \ge b \nonumber \\
+&& x \ge 0 \nonumber
+\end{eqnarray}
+In stochastic linear programming, we will allow some of the parameters $(A, b, c)$ to be random with known distribution.
+\end{frame}
+
+\begin{frame}
+\frametitle{Random Vector Notation}
+\begin{itemize}
+\item $\tilde{\xi}$ is a random vector
+\item $\xi^\omega$ is a specific realization
+\item $\omega \in \Omega$ is a sample point in the sample space
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Stochastic Programming}
+\begin{itemize}
+\item Does not make sense to simply write
+\begin{eqnarray}
+z^* = \min_{x} && \tilde{c}x \nonumber \\
+\mbox{s.t.} && \tilde{A}x \ge \tilde{b} \nonumber \\
+&& x \ge 0 \nonumber
+\end{eqnarray}
+\item Timing of decisions?
+\item Optimization under uncertainty means we choose $x$ first before knowing the realization of $(\tilde{A}, \tilde{b}, \tilde{c})$.
+\item So what do we mean by {\em feasibility} and {\em optimality} in the above ``random linear program?''
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Feasiblity}
+\begin{itemize}
+\item The ``fat'' model: infeasibility is not accepted
+\begin{equation}
+A^\omega x \ge b^\omega,\;\;\omega \in \Omega \nonumber
+\end{equation}
+\item Advantages
+    \begin{itemize}
+    \item Solution will be feasible with respect to any scenario we've modeled
+    \end{itemize}
+\item Disadvantages
+    \begin{itemize}
+    \item Solution is pessimistic, hedges against worst-case scenarios
+    \item Can easily be infeasible
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Feasibility}
+\begin{itemize}
+\item Chance-constrained model: infeasiblity accepted but only with ``small'' probability
+\item Joint chance-constraint model
+\begin{eqnarray}
+\min_x && c x \nonumber \\
+\mbox{s.t.} && P(\tilde{A}x \ge \tilde{b}) \ge \alpha \nonumber \\
+&& x \ge 0 \nonumber
+\end{eqnarray}
+\item Individual chance-constraint model
+\begin{eqnarray}
+\min_x && c x \nonumber \\
+\mbox{s.t.} && P(\tilde{A}_{i.} x \ge \tilde{b}_i ) \ge \alpha_i,\;\;i = 1,\ldots,m \nonumber \\
+&& x \ge 0 \nonumber
+\end{eqnarray}
+\item Magnitude of violation is not captured
+\item Feasible region not always convex
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Feasibility}
+\begin{itemize}
+\item Simple recourse model: infeasibility is accepted but is penalized
+\item Let $q = (q_1, \ldots, q_m) > 0$ denote per unit costs of violating each constraint, $(\cdot)^+ = \max(\cdot, 0)$
+\begin{eqnarray}
+\min_x && cx + Eq(\tilde{b} - \tilde{A}x)^+ \nonumber \\
+\mbox{s.t.} && x \ge 0 \nonumber
+\end{eqnarray}
+\item Want $b - Ax \le 0$, so $(b - Ax)^+$ is the magnitude of violation in each constraint.
+\item Penalty function may be piecewise linear to penalize larger violations at higher rates.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Simple Recourse}
+\begin{eqnarray}
+\min_{x, y} && c x + \sum_{\omega \in \Omega} p^\omega q y^\omega \nonumber \\
+\mbox{s.t.} && A^\omega x + y^\omega \ge b^\omega,\;\;\omega \in \Omega \nonumber \\
+&& x \ge 0 \nonumber \\
+&& y^\omega \ge 0,\;\;\omega \in \Omega \nonumber
+\end{eqnarray}
+The $y^\omega$ variables serve the same purpose as the variables we used to soften constraints earlier.
+Timing:
+\begin{itemize}
+\item First we choose $x$.
+\item Then we observe the uncertainty in $(A^\omega, b^\omega)$.
+\item Then we choose $y^\omega$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Two-stage Stochastic Program with Recourse}
+Let's move away from the standard
+\begin{eqnarray}
+\min_{x} && c x \nonumber \\
+\mbox{s.t.} && A x \ge b \nonumber \\
+&& x \ge 0 \nonumber
+\end{eqnarray}
+setting towards
+\begin{eqnarray}
+\begin{aligned}
+\min_{x,y} & c x + f y & \nonumber \\
+\mbox{s.t.} & A x & = b \nonumber \\
+- & B x + D y &= d \nonumber \\
+& x,y \ge 0 & \nonumber
+\end{aligned}
+\end{eqnarray}
+Timing is critical!
+\begin{itemize}
+\item First we choose $x$.
+\item Then we observe random quantities in $(B, D, d, f)$.
+\item Finally we choose $y$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Two-stage Stochastic Program with Recourse}
+\begin{eqnarray}
+\min_x && c x + E h(x, \omega) \nonumber \\
+\mbox{s.t.} && Ax = b \nonumber \\
+&& x \ge 0 \nonumber
+\end{eqnarray}
+where
+\begin{eqnarray}
+h(x, \omega) = & \min_{y^\omega} & f^\omega y^\omega \nonumber \\
+& \mbox{s.t.} & D^\omega y^\omega = B^\omega x + d^\omega \nonumber \\
+&& y^\omega \ge 0. \nonumber
+\end{eqnarray}
+Timing:
+\begin{itemize}
+\item $x$ is made with perfect knowledge of $(A, b, c)$ but only distributional knowledge of $\tilde{\xi} = (\tilde{B}, \tilde{D}, \tilde{d}, \tilde{f})$.
+\item The random scenario $\omega$ is revealed.
+\item $y^\omega$ is made with knowledge of $(D^\omega, d^\omega, B^\omega, f^\omega).$
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Diet Problem with Uncertain Food Prices}
+\begin{eqnarray}
+\min_x && Eh(x, \tilde{c}) \nonumber \\
+\mbox{s.t.} && \sum_{j \in J} a_{ij} x_j \ge b_j,\;\;j \in J \nonumber \\
+&& x_j \ge 0,\;\;j \in J \nonumber
+\end{eqnarray}
+where
+\begin{equation}
+Eh(x, \tilde{c}) = E[\sum_{j \in J} \tilde{c}_j x_j] = \sum_{j \in J} E\tilde{c}_j x_j \nonumber
+\end{equation}
+Objective can be written as $\sum_{j \in J} \bar{c}_j x_j$ where $\bar{c}_j = E \tilde{c}_j$. \\
+\end{frame}
+
+\begin{frame}
+\frametitle{Aircraft Allocation}
+\begin{itemize}
+    \item Sets and Indices
+    \begin{itemize}
+        \item $j \in J$ : aircraft types
+        \item $r \in R$ : routes
+    \end{itemize}
+    \item Data
+    \begin{itemize}
+        \item $b_j$ : capacity of aircraft type $j$
+        \item $q_r$ : lost revenue from turning away a route $r$ passenger
+        \item $c_{jr}$ : cost of operating aircraft $j$ on route $r$
+        \item $k_{jr}$ : passenger capacity of aircraft $j$ on route $r$
+        \item $d_r$ : demand on route $r$
+    \end{itemize}
+    \item Decision Variables
+    \begin{itemize}
+        \item $x_{jr}$ : number of aircraft $j$ assigned to route $r$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Aircraft Allocation (Deterministic)}
+\begin{eqnarray}
+\min_x && \sum_{j \in J} \sum_{r \in R} c_{jr} x_{jr} \nonumber \\
+\mbox{s.t.} && \sum_{r \in R} x_{jr} \le b_j,\;\;j \in J \nonumber \\
+&& \sum_{j \in J} k_{jr} x_{jr} \ge d_r,\;\;r \in R \nonumber \\
+&& x_{jr} \ge 0,\;\;j \in J,\;r \in R \nonumber
+\end{eqnarray}
+\end{frame}
+
+\begin{frame}
+\frametitle{Aircraft Allocation (Stochastic)}
+\begin{eqnarray}
+\min_x && \sum_{j \in J} \sum_{r \in R} c_{jr} x_{jr} + Eh(x, \tilde{d}) \nonumber \\
+\mbox{s.t.} && \sum_{r \in R} x_{jr} \le b_j,\;\;j \in J \nonumber \\
+&& x_{jr} \ge 0,\;\;j \in J,\;r \in R \nonumber
+\end{eqnarray}
+where $h(x, \tilde{d}) = \sum_{r \in R} q_r (\tilde{d}_r - \sum_{j \in J} k_{jr} x_{jr})^+$.
+\end{frame}
+
+\begin{frame}
+\frametitle{Aircraft Allocation (Stochastic)}
+\begin{itemize}
+\item Random Sets and Variables
+    \begin{itemize}
+    \item $\tilde{d}_r$ : customer demand on route $r$
+    \item $\omega_r \in \Omega^r$ : possible demands for route $r$
+    \item $d_r^{\omega_r}$ : realization of customer demand
+    \item $p_r^{\omega_r} = P(\tilde{d}_r = d_r^{\omega_r})$ : probability that demand scenario $\omega_r$ is realized
+    \end{itemize}
+\end{itemize}
+\begin{eqnarray}
+Eh(x, \tilde{d}) &=& \sum_{r \in R} q_r E[\tilde{d}_r - \sum_{j \in J} k_{jr} x_{jr}]^+ \nonumber \\
+&=& \sum_{r \in R} q_r \sum_{\omega_r \in \Omega_r} p_r^{\omega_r} [d_r^{\omega_r} - \sum_{j \in J} k_{jr} x_{jr}]^+ \nonumber
+\end{eqnarray}
+Linearize the $[\cdot]$ via
+\begin{eqnarray}
+y_r^{\omega_r} &\ge& d_r^{\omega_r} - \sum_{j \in J} k_{jr} x_{jr} \nonumber \\
+y_r^{\omega_r} &\ge& 0 \nonumber
+\end{eqnarray}
+\end{frame}
+
+\begin{frame}
+\frametitle{Aircraft Allocation (Stochastic)}
+The LP deterministic equivalent formulation:
+\begin{eqnarray}
+\min_x && \sum_{j \in J} \sum_{r \in R} c_{jr} x_{jr} + \sum_{r \in R} \sum_{\omega_r \in \Omega_r} p_r^{\omega_r} q_r y_r^{\omega_r} \nonumber \\
+\mbox{s.t.} && \sum_{r \in R} x_{jr} \le b_j,\;\;j \in J \nonumber \\
+&& \sum_{j \in J} k_{jr} x_{jr} + y_r^{\omega_r} \ge d_r^{\omega_r},\;\;r \in R,\;\omega_r \in \Omega_r \nonumber \\
+&& x_{jr} \ge 0, \;\;j \in J,\;r \in R \nonumber \\
+&& y_r^{\omega_r} \ge 0,\;\;r \in R,\;\omega_r \in \Omega_r \nonumber
+\end{eqnarray}
+\end{frame}
+
+\begin{frame}
+\frametitle{A Capacity Expansion Planning Model}
+\begin{itemize}
+    \item Sets and Indices
+    \begin{itemize}
+        \item $i \in I$: electric generators
+        \item $j \in J$: demand sites
+    \end{itemize}
+    \item Data
+    \begin{itemize}
+        \item $b$ : bound on total generation capacity
+        \item $k_i$ : per unit cost of installing capacity at generator $i$
+        \item $c_{ij}$ : per unit cost of energy sent from generator $i$ to demand site $j$
+        \item $\rho_j$ : per unit subcontracting cost for demand site $j$
+    \end{itemize}
+    \item Random Variables
+    \begin{itemize}
+        \item $f_i^\omega$ : available fraction of allocated capacity at generator $i$
+        \item $d_j^\omega$ : demand at site $j$
+    \end{itemize}
+    \item Decision Variables
+    \begin{itemize}
+        \item $x_i$ : capacity of generator $i$
+        \item $y_{ij}^\omega$ : units of demand at site $j$ satisfied by generator $i$
+        \item $s_j^\omega$ : units of demand at site $j$ satisfied by subcontracting
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Formulation}
+\begin{eqnarray}
+\min_x && \sum_{i \in I} k_i x_i + \sum_{\omega \in \Omega} p^\omega h(x, \omega) \nonumber \\
+\mbox{s.t.} && \sum_{i \in I} x_i \le b \nonumber \\
+&& x \ge 0 \nonumber
+\end{eqnarray}
+where
+\begin{eqnarray}
+h(x, \omega) = & \min_{y, s} & \sum_{i \in I} \sum_{j \in J} c_{ij} y_{ij} + \sum_{j \in J} \rho_j s_j \nonumber \\
+& \mbox{s.t.} & \sum_{j \in J} y_{ij} \le f_i^\omega x_i,\;\;i \in I \nonumber \\
+&& \sum_{i \in I} y_{ij} + s_j = d_j^\omega,\;\;j \in J \nonumber \\
+&& y, s \ge 0 \nonumber
+\end{eqnarray}
+\end{frame}
+
+\begin{frame}
+\frametitle{Deterministic Equivalent}
+\begin{eqnarray}
+\min_{x,y,s} && \sum_{i \in I} k_i x_i + \sum_{\omega \in \Omega} p^\omega \left[ \sum_{i \in I} \sum_{j \in J} c_{ij} y_{ij}^\omega + \sum_{j \in J} p_j s_j^\omega \right] \nonumber \\
+\mbox{s.t.} && \sum_{i \in I} x_i \le b \nonumber \\
+&& -f_i^\omega x_i + \sum_{j \in J} y_{ij}^\omega \le 0,\;\;i \in I,\;\omega \in \Omega \nonumber \\
+&& \sum_{i \in I} y_{ij}^\omega + s_j^\omega = d_j^\omega,\;\;j \in J,\;\omega \in \Omega \nonumber \\
+&& x \ge 0 \;\; y^\omega \ge 0,\;\;\omega \in \Omega \;\; s^\omega \ge 0,\;\;\omega \in \Omega \nonumber
+\end{eqnarray}
+\end{frame}
+
+\begin{frame}
+\frametitle{Deterministic Equivalent}
+In general if we have a two-stage problem with finite scenarios $\Omega = \{1,2,\ldots,S\}$, we may write the problem as a large-scale deterministic problem.
+\begin{eqnarray}
+\min && c x + \sum_{\omega \in \Omega} p^\omega f^\omega y^\omega \nonumber \\
+\mbox{s.t.} && A x = b \nonumber \\
+&& -B^\omega x + D^\omega y^\omega = d^\omega,\;\;\omega \in \Omega \nonumber \\
+&& x, y^\omega \ge 0,\;\;\omega \in \Omega \nonumber
+\end{eqnarray}
+\end{frame}
+
+\begin{frame}
+\frametitle{Optimality}
+\begin{itemize}
+\item Minimize expected cost
+\begin{equation}
+\min E [\tilde{c} x] \nonumber
+\end{equation}
+\item Markowitz mean-variance model
+\begin{equation}
+\min E[\tilde{c} x] + \lambda var[\tilde{c}x] \nonumber
+\end{equation}
+\item Minimize probability of exceeding a cost threshold
+\begin{equation}
+\min P(\tilde{c} x > c_0) \nonumber
+\end{equation}
+\item Minimize expected disutility of cost
+\begin{equation}
+\min Eu(\tilde{c}x) \nonumber
+\end{equation}
+    \begin{itemize}
+    \item $u(y) = I(y > c_0)$, where $I(\cdot)$ is an indicator function, recovers the previous model
+    \item $u(\cdot)$ should typically be increasing and convex
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Example}
+\begin{itemize}
+\item Funds with returns $\tilde{\xi} = (\tilde{\xi}_1,\ldots,\tilde{\xi}_m)$
+\item Decision, \% of fund $i$: $x = (x_1, \ldots, x_m)$
+\begin{eqnarray}
+\max_x && Eu \left(\sum_{i = 1}^m \tilde{\xi}_i x_i \right) \nonumber \\
+\mbox{s.t.} && \sum_{i = 1}^m x_i = 1 \nonumber \\
+&& x \ge 0 \nonumber
+\end{eqnarray}
+\item $u(\xi x) = I(\xi x \ge r_0) - \lambda(r_1 - \xi x)^+$, where $r_0$ and $r_1$ are benchmark returns (e.g. $r_0 = 15\%$ and $r_1 = 0\%$) and $I(\cdot)$ is an indicator function.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Mixed-Integer Programming Formulation}
+\begin{eqnarray}
+\max_{x, s, y} && \frac{1}{|\Omega|} \sum_{\omega \in \Omega} y^\omega - \lambda \frac{1}{|\Omega|} \sum_{\omega \in \Omega}s^\omega \nonumber \\
+\mbox{s.t.} && \sum_{i = 1}^m x_i = 1 \nonumber \\
+&& \xi^\omega x \ge r_0 y^\omega,\;\;\omega \in \Omega \nonumber \\
+&& \xi^\omega x \ge r_1 - s^\omega,\;\;\omega \in \Omega \nonumber \\
+&& x \ge 0 \nonumber \\
+&& y^\omega \in \{0, 1\},\;\;\omega \in \Omega \nonumber \\
+&& s^\omega \ge 0,\;\;\omega \in \Omega \nonumber
+\end{eqnarray}
+\end{frame}
+
+\end{document}
