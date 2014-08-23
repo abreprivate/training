@@ -251,131 +251,6 @@ Nutrient requirements: \\ Iron: 21, Calcium: 12
 \end{itemize}
 \end{frame}
 
-\begin{frame} [containsverbatim]
-\frametitle{Solving with the Gurobi Interactive Shell}
-{\tiny
-\begin{Verbatim} [commandchars=\\\{\}]
-\color{red}gurobi> m = Model(name = 'diet')
-gurobi> x1 = m.addVar(lb = 0, ub = GRB.INFINITY, obj = 20, vtype = GRB.CONTINUOUS, name = 'food.1')
-gurobi> x2 = m.addVar(lb = 0, ub = GRB.INFINITY, obj = 10, vtype = GRB.CONTINUOUS, name = 'food.2')
-gurobi> x3 = m.addVar(lb = 0, ub = GRB.INFINITY, obj = 31, vtype = GRB.CONTINUOUS, name = 'food.3')
-gurobi> x4 = m.addVar(lb = 0, ub = GRB.INFINITY, obj = 11, vtype = GRB.CONTINUOUS, name = 'food.4')
-gurobi> x5 = m.addVar(lb = 0, ub = GRB.INFINITY, obj = 12, vtype = GRB.CONTINUOUS, name = 'food.5')
-gurobi> m.update()
-gurobi> nut1_con = m.addConstr(2*x1 + 3*x3 + 1*x4 + 2*x5 >= 21, 'nutrient.iron')
-gurobi> nut2_con = m.addConstr(1*x2 + 2*x3 + 2*x4 + 1*x5 >= 12, 'nutrient.calcium')
-gurobi> m.optimize()
-Optimize a model with 2 rows, 5 columns and 8 nonzeros
-Iteration    Objective       Primal Inf.    Dual Inf.      Time
-       0    0.0000000e+00   1.125000e+01   0.000000e+00      0s
-       2    1.3100000e+02   0.000000e+00   0.000000e+00      0s
-
-Solved in 2 iterations and 0.00 seconds
-Optimal objective  1.310000000e+02
-\end{Verbatim}
-}
-\end{frame}
-
-\begin{frame} [containsverbatim]
-\frametitle{Solving with the Gurobi Interactive Shell}
-{\tiny
-\begin{Verbatim} [commandchars=\\\{\}]
-gurobi> m = Model(name = 'diet')
-\color{red}gurobi> x1 = m.addVar(lb = 0, ub = GRB.INFINITY, obj = 20, vtype = GRB.CONTINUOUS, name = 'food.1')
-\color{red}gurobi> x2 = m.addVar(lb = 0, ub = GRB.INFINITY, obj = 10, vtype = GRB.CONTINUOUS, name = 'food.2')
-\color{red}gurobi> x3 = m.addVar(lb = 0, ub = GRB.INFINITY, obj = 31, vtype = GRB.CONTINUOUS, name = 'food.3')
-\color{red}gurobi> x4 = m.addVar(lb = 0, ub = GRB.INFINITY, obj = 11, vtype = GRB.CONTINUOUS, name = 'food.4')
-\color{red}gurobi> x5 = m.addVar(lb = 0, ub = GRB.INFINITY, obj = 12, vtype = GRB.CONTINUOUS, name = 'food.5')
-gurobi> m.update()
-gurobi> nut1_con = m.addConstr(2*x1 + 3*x3 + 1*x4 + 2*x5 >= 21, 'nutrient.iron')
-gurobi> nut2_con = m.addConstr(1*x2 + 2*x3 + 2*x4 + 1*x5 >= 12, 'nutrient.calcium')
-gurobi> m.optimize()
-Optimize a model with 2 rows, 5 columns and 8 nonzeros
-Iteration    Objective       Primal Inf.    Dual Inf.      Time
-       0    0.0000000e+00   1.125000e+01   0.000000e+00      0s
-       2    1.3100000e+02   0.000000e+00   0.000000e+00      0s
-
-Solved in 2 iterations and 0.00 seconds
-Optimal objective  1.310000000e+02
-\end{Verbatim}
-}
-\end{frame}
-
-\begin{frame} [containsverbatim]
-\frametitle{Solving with the Gurobi Interactive Shell}
-{\tiny
-\begin{Verbatim} [commandchars=\\\{\}]
-gurobi> m = Model(name = 'diet')
-gurobi> x1 = m.addVar(lb = 0, ub = GRB.INFINITY, obj = 20, vtype = GRB.CONTINUOUS, name = 'food.1')
-gurobi> x2 = m.addVar(lb = 0, ub = GRB.INFINITY, obj = 10, vtype = GRB.CONTINUOUS, name = 'food.2')
-gurobi> x3 = m.addVar(lb = 0, ub = GRB.INFINITY, obj = 31, vtype = GRB.CONTINUOUS, name = 'food.3')
-gurobi> x4 = m.addVar(lb = 0, ub = GRB.INFINITY, obj = 11, vtype = GRB.CONTINUOUS, name = 'food.4')
-gurobi> x5 = m.addVar(lb = 0, ub = GRB.INFINITY, obj = 12, vtype = GRB.CONTINUOUS, name = 'food.5')
-\color{red}gurobi> m.update()
-gurobi> nut1_con = m.addConstr(2*x1 + 3*x3 + 1*x4 + 2*x5 >= 21, 'nutrient.iron')
-gurobi> nut2_con = m.addConstr(1*x2 + 2*x3 + 2*x4 + 1*x5 >= 12, 'nutrient.calcium')
-gurobi> m.optimize()
-Optimize a model with 2 rows, 5 columns and 8 nonzeros
-Iteration    Objective       Primal Inf.    Dual Inf.      Time
-       0    0.0000000e+00   1.125000e+01   0.000000e+00      0s
-       2    1.3100000e+02   0.000000e+00   0.000000e+00      0s
-
-Solved in 2 iterations and 0.00 seconds
-Optimal objective  1.310000000e+02
-\end{Verbatim}
-}
-\end{frame}
-
-\begin{frame} [containsverbatim]
-\frametitle{Solving with the Gurobi Interactive Shell}
-{\tiny
-\begin{Verbatim} [commandchars=\\\{\}]
-gurobi> m = Model(name = 'diet')
-gurobi> x1 = m.addVar(lb = 0, ub = GRB.INFINITY, obj = 20, vtype = GRB.CONTINUOUS, name = 'food.1')
-gurobi> x2 = m.addVar(lb = 0, ub = GRB.INFINITY, obj = 10, vtype = GRB.CONTINUOUS, name = 'food.2')
-gurobi> x3 = m.addVar(lb = 0, ub = GRB.INFINITY, obj = 31, vtype = GRB.CONTINUOUS, name = 'food.3')
-gurobi> x4 = m.addVar(lb = 0, ub = GRB.INFINITY, obj = 11, vtype = GRB.CONTINUOUS, name = 'food.4')
-gurobi> x5 = m.addVar(lb = 0, ub = GRB.INFINITY, obj = 12, vtype = GRB.CONTINUOUS, name = 'food.5')
-gurobi> m.update()
-\color{red}gurobi> nut1_con = m.addConstr(2*x1 + 3*x3 + 1*x4 + 2*x5 >= 21, 'nutrient.iron')
-\color{red}gurobi> nut2_con = m.addConstr(1*x2 + 2*x3 + 2*x4 + 1*x5 >= 12, 'nutrient.calcium')
-gurobi> m.optimize()
-Optimize a model with 2 rows, 5 columns and 8 nonzeros
-Iteration    Objective       Primal Inf.    Dual Inf.      Time
-       0    0.0000000e+00   1.125000e+01   0.000000e+00      0s
-       2    1.3100000e+02   0.000000e+00   0.000000e+00      0s
-
-Solved in 2 iterations and 0.00 seconds
-Optimal objective  1.310000000e+02
-\end{Verbatim}
-}
-\end{frame}
-
-\begin{frame} [containsverbatim]
-\frametitle{Solving with the Gurobi Interactive Shell}
-{\tiny
-\begin{Verbatim} [commandchars=\\\{\}]
-gurobi> m = Model(name = 'diet')
-gurobi> x1 = m.addVar(lb = 0, ub = GRB.INFINITY, obj = 20, vtype = GRB.CONTINUOUS, name = 'food.1')
-gurobi> x2 = m.addVar(lb = 0, ub = GRB.INFINITY, obj = 10, vtype = GRB.CONTINUOUS, name = 'food.2')
-gurobi> x3 = m.addVar(lb = 0, ub = GRB.INFINITY, obj = 31, vtype = GRB.CONTINUOUS, name = 'food.3')
-gurobi> x4 = m.addVar(lb = 0, ub = GRB.INFINITY, obj = 11, vtype = GRB.CONTINUOUS, name = 'food.4')
-gurobi> x5 = m.addVar(lb = 0, ub = GRB.INFINITY, obj = 12, vtype = GRB.CONTINUOUS, name = 'food.5')
-gurobi> m.update()
-gurobi> nut1_con = m.addConstr(2*x1 + 3*x3 + 1*x4 + 2*x5 >= 21, 'nutrient.iron')
-gurobi> nut2_con = m.addConstr(1*x2 + 2*x3 + 2*x4 + 1*x5 >= 12, 'nutrient.calcium')
-\color{red}gurobi> m.optimize()
-\color{red}Optimize a model with 2 rows, 5 columns and 8 nonzeros
-\color{red}Iteration    Objective       Primal Inf.    Dual Inf.      Time
-\color{red}       0    0.0000000e+00   1.125000e+01   0.000000e+00      0s
-\color{red}       2    1.3100000e+02   0.000000e+00   0.000000e+00      0s
-
-\color{red}Solved in 2 iterations and 0.00 seconds
-\color{red}Optimal objective  1.310000000e+02
-\end{Verbatim}
-}
-\end{frame}
-
 \begin{frame}
 \frametitle{Querying the Solution}
 \begin{itemize}
@@ -405,8 +280,8 @@ gurobi> nut2_con = m.addConstr(1*x2 + 2*x3 + 2*x4 + 1*x5 >= 12, 'nutrient.calciu
     \end{itemize}
 \item Constr object attributes
     \begin{itemize}
-    \item nut1\_con.Pi - shadow price, change in objective/change in RHS
-    \item nut1\_con.Slack - difference between LHS and RHS
+    \item iron_constraint.Pi - shadow price, change in objective/change in RHS
+    \item iron_constraint.Slack - difference between LHS and RHS
     \end{itemize}
 \end{itemize}
 \end{frame}
