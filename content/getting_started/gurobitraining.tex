@@ -280,8 +280,8 @@ Nutrient requirements: \\ Iron: 21, Calcium: 12
     \end{itemize}
 \item Constr object attributes
     \begin{itemize}
-    \item iron_constraint.Pi - shadow price, change in objective/change in RHS
-    \item iron_constraint.Slack - difference between LHS and RHS
+    \item iron\_constraint.Pi - shadow price, change in objective/change in RHS
+    \item iron\_constraint.Slack - difference between LHS and RHS
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -773,11 +773,11 @@ m.Write("knapsack.lp");
 m.Optimize();
 
 if (m.get(GRB.IntAttr.Status) == GRB.OPTIMAL) {
-    for (GRBVar var in m.GetVars()) {
+    foreach (GRBVar var in m.GetVars()) {
         Console.WriteLine("{0} = {1}, reduced cost = {2}", var.Get(GRB.StringAttr.VarName),
                           var.Get(GRB.DoubleAttr.X), var.Get(GRB.DoubleAttr.RC));
     }
-    for (GRBConstr constr in m.GetConstrs()) {
+    foreach (GRBConstr constr in m.GetConstrs()) {
         Console.WriteLine("{0}, slack = {1}, pi = {2}", constr.get(GRB.StringAttr.ConstrName),
                           constr.get(GRB.DoubleAttr.Slack), constr.get(GRB.DoubleAttr.Pi));
     }
@@ -899,8 +899,8 @@ for (int i = 0; i < I; ++i) {
 \begin{itemize}
 \item After optimization, always check the Model attribute Status to determine whether the model was solved to optimality.
 \item If Status is GRB.Status.Infeasible, how to diagnose infeasiblity?
-\item GRBModel.computeIIS() computes an irreducible inconsistent subsystem.
-\item Pass GRBModel.write() a filename with suffix .ilp to write the IIS to a file.
+\item GRBModel.ComputeIIS() computes an irreducible inconsistent subsystem.
+\item Pass GRBModel.Write() a filename with suffix .ilp to write the IIS to a file.
 \item GRBVar attributes IISLB, IISUB indicate which variable bounds participate in the IIS.
 \item GRBConstr attributes IISConstr indicate which constraints participate in the IIS.
 \end{itemize}
@@ -916,7 +916,7 @@ for (int i = 0; i < I; ++i) {
 \end{frame}
 
 \begin{frame}
-\frametitle{Softening Constraints}
+\frametitle{Elasticizing Constraints}
 To extend the transportation problem allow demand to go unsatisfied at a per-unit penalty of $\rho$ replace the demand constraint with
 \begin{equation}
 \sum_{i \in I} x_{ij} = d_j - y_j,\;\;j \in J, \nonumber
@@ -934,7 +934,6 @@ Penalize the first 20\% of demand shortfall at a rate $\rho$, and any additional
 \end{eqnarray}
 \noindent and add $\rho \sum_{j \in J} (y_j^1 + 1.5 y_j^2)$ to the objective.
 \end{frame}
-
 
 \begin{frame}
 \frametitle{Minimize the Maximum Demand Shortfall}
@@ -1008,6 +1007,16 @@ m.Optimize();
 \end{verbatim}
 \end{frame}
 
+\begin{frame}
+\frametitle{Best Modeling Practices}
+\begin{itemize}
+\item Allow objectives to become constraints and vice versa
+\item Multiple optima are the norm, not the exception
+\item Exploit this with tie-breakers (secondary, tertiary objectives)
+\item Elasticize constraints
+\end{itemize}
+\end{frame}
+
 \frame{\frametitle{Shortest Path}
 \begin{itemize}
 \item Let $N$ be a set of cities.
@@ -1038,10 +1047,10 @@ m.Optimize();
 Let $x_{ij} = 1$ if arc $(i,j)$ is traversed.
 \begin{eqnarray}
 \min_x && \sum_{(i,j) \in A} d_{ij} x_{ij} \nonumber \\
-\mbox{s.t.} && \sum_{j \in FS(i)} x_{ij} - \sum_{j \in RS(i)} x_{ji} = b_i,\;\;i \in N \nonumber \\
+\mbox{s.t.} && \sum_{j \in RS(i)} x_{ji} - \sum_{j \in FS(i)} x_{ij} = b_i,\;\;i \in N \nonumber \\
 && 0 \le x_{ij} \le 1,\;\;(i,j) \in A, \nonumber
 \end{eqnarray}
-\noindent where $FS(i) = \{j | (i,j) \in A\}$, $RS(i) = \{j | (j, i) \in A\}$, $b_s = 1$, $b_t = -1$, and $b_i = 0$ for $i \neq s, t$.
+\noindent where $FS(i) = \{j | (i,j) \in A\}$, $RS(i) = \{j | (j, i) \in A\}$, $b_s = -1$, $b_t = 1$, and $b_i = 0$ for $i \neq s, t$.
 \end{frame}
 
 \begin{frame}
