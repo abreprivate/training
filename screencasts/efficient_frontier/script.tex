@@ -1,0 +1,83 @@
+\documentclass[12pt]{article}
+
+\begin{document}
+
+\section{Introduction}
+
+\section{Use Cases}
+Besides the case where you explicitly have two objectives
+that partially conflict with each other,
+there are quite few situations where generating an efficient
+frontier might apply.  
+If you need to present 
+alternative solutions, this is a good way to generate them.
+
+If you have a solution that is technically optimal,
+
+Gurobi can't directly optimize ratios, even if the
+numerator and denominator are linear 
+but it turns out, with some mild assumptions, 
+you can generate an efficient frontier and inspect
+it for the solution that maximizes of minimizes
+that ratio. 
+
+If you need to combine several goals and you can't
+figure out how because either they can't all be put
+into dollars, their relative importance isn't fixed
+or know before hand, or if they have a non-linear
+relationship.
+
+It can also improve existing models.
+If you have arbitrary coefficients in your objective
+function that might be a sign that you are combining 
+two criteria that might better be treated separately.
+If you have wide variation in your coefficients
+say you have coefficients in the single-digits
+and in the millions
+this can cause numerical issues.
+If you see a message
+``warning: switching to quad precision'' 
+in your logs that's a possible sign that
+you are trying to do too much with a single
+objective.
+
+
+
+
+
+\section{Outline}
+In this screen cast, we will build and solve a simple linear
+programming model with the Gurobi python API.  
+The model we will use is the so-called transportation model
+which is probably the simplest supply chain optimization
+model that you can have.
+Then we'll query the
+attributes of the solved model.  We'll, not only look at the 'X'
+attributes of your decision variables, which are the values that you
+usually want, but also but also the attributes that show the
+sensitivity of the solution to changes in the coefficients and bounds.
+The most common in the dual price, which is also called shadow price
+or bid price.  This is the incremental effect on the optimal objective
+value of changing a bound on a constraint.  We are also going to look
+at another family of attributes with the prefix SA which show you the
+depth of the bid price.  That is, how much can a bound change before
+the bid price itself changes.
+
+Finally, we'll show the efficient frontier approach to working with 
+two objective functions.  First we'll give the definition of Pareto 
+optimality which is probably the most accepted
+definition of optimality in the presence of two or more objective
+functions and compare it with optimality with one objective
+as defined by math programming solvers.
+
+Then we'll compute all the Pareto efficient points for our simple
+model, using two different approaches and graph the results.
+We'll also relate the sensitivity attributes in Gurobi to the 
+
+and demonstrate some how some of the efficient frontier
+can be calculated just with the attributes available in Gurobi.
+
+
+
+
+\end{document}
