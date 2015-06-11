@@ -1,0 +1,28 @@
+Eclipse configuration for C++
+
+
+Paths and Gurobi version may vary depending on your configuration.
+
+<project> -> Properties -> C/C++ Build -> Settings -> GCC C++ Compiler -> Includes
+    /opt/gurobi604/linux64/include
+<project> -> Properties -> C/C++ Build -> Settings -> GCC C Compiler -> Includes
+    /opt/gurobi604/linux64/include
+<project> -> Properties -> C/C++ Build -> Settings -> GCC C++ Linker -> Libraries -> Libraries (-l)
+    gurobi_c++
+    gurobi60
+<project> -> Properties -> C/C++ Build -> Settings -> GCC C++ Linker -> Libraries -> Library search path (-L)
+    /opt/gurobi604/linux64/lib
+<project> -> Properties -> Run/Debug Settings -> <executable> -> Edit -> Environment -> New
+    LD_LIBRARY_PATH   /opt/gurobi604/linux64/lib
+    
+    
+Eclipse will build using the following commands: 
+
+Compile command:
+g++ -I/opt/gurobi604/linux64/include -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/diet.d" -MT"src/diet.d" -o "src/diet.o" "../src/diet.c++"
+
+Link command:
+g++ -L/opt/gurobi604/linux64/lib -o "diet_c++"  ./src/diet.o   -lgurobi_c++ -lgurobi60
+
+
+
