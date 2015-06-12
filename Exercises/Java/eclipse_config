@@ -1,0 +1,12 @@
+Eclipse configuration for Java
+
+
+Paths and Gurobi version may vary depending on your configuration.
+
+<project> -> Properties -> Java Build Path -> Libraries -> Add External JARs
+    gurobi.jar - /opt/gurobi604/linux64/lib
+<project> -> Properties -> Run/Debug Settings -> <executable> -> Edit -> Environment -> New
+    LD_LIBRARY_PATH   /opt/gurobi604/linux64/lib
+<project> -> Properties -> Run/Debug Settings -> <executable> -> Edit -> Main -> Main class:
+    <should match main class of java file>
+

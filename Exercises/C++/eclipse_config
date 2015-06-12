@@ -3,14 +3,14 @@ Eclipse configuration for C++
 
 Paths and Gurobi version may vary depending on your configuration.
 
-<project> -> Properties -> C/C++ Build -> Settings -> GCC C++ Compiler -> Includes
+<project> -> Properties -> C/C++ Build -> Settings -> Tool Settings -> GCC C++ Compiler -> Includes
     /opt/gurobi604/linux64/include
-<project> -> Properties -> C/C++ Build -> Settings -> GCC C Compiler -> Includes
+<project> -> Properties -> C/C++ Build -> Settings -> Tool Settings -> GCC C Compiler -> Includes
     /opt/gurobi604/linux64/include
-<project> -> Properties -> C/C++ Build -> Settings -> GCC C++ Linker -> Libraries -> Libraries (-l)
+<project> -> Properties -> C/C++ Build -> Settings -> Tool Settings -> GCC C++ Linker -> Libraries -> Libraries (-l)
     gurobi_c++
     gurobi60
-<project> -> Properties -> C/C++ Build -> Settings -> GCC C++ Linker -> Libraries -> Library search path (-L)
+<project> -> Properties -> C/C++ Build -> Settings -> Tool Settings -> GCC C++ Linker -> Libraries -> Library search path (-L)
     /opt/gurobi604/linux64/lib
 <project> -> Properties -> Run/Debug Settings -> <executable> -> Edit -> Environment -> New
     LD_LIBRARY_PATH   /opt/gurobi604/linux64/lib
