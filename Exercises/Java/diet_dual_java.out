@@ -1,0 +1,32 @@
+Optimize a model with 5 rows, 2 columns and 8 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 3e+00]
+  Objective range [1e+01, 2e+01]
+  Bounds range    [0e+00, 0e+00]
+  RHS range       [1e+01, 3e+01]
+Presolve removed 3 rows and 0 columns
+Presolve time: 0.00s
+Presolved: 2 rows, 2 columns, 4 nonzeros
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+       0    1.9222500e+02   5.770250e+00   0.000000e+00      0s
+       2    1.3100000e+02   0.000000e+00   0.000000e+00      0s
+
+Solved in 2 iterations and 0.00 seconds
+Optimal objective  1.310000000e+02
+
+Variables:
+V Name	Value	Red. Cost
+pi	4.333333333333333	0.0
+pc	3.3333333333333335	0.0
+
+Obj: 131.0
+
+Constraints:
+C Name	Slack	Dual Val
+c1	11.333333333333334	0.0
+c2	6.666666666666666	0.0
+c3	11.333333333333332	0.0
+c4	0.0	1.0
+c5	0.0	10.0
+
