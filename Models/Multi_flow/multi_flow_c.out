@@ -1,0 +1,58 @@
+Warning: variable name "Pencils_Detroit_New York" has a space
+Warning: constraint name "demand_Pencils_New York" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 16 rows, 12 columns and 36 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+00]
+  Objective range [1e+01, 8e+01]
+  Bounds range    [8e+01, 1e+02]
+  RHS range       [1e+01, 1e+02]
+Presolve removed 4 rows and 0 columns
+Presolve time: 0.00s
+Presolved: 12 rows, 12 columns, 28 nonzeros
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+       0    0.0000000e+00   2.100000e+02   0.000000e+00      0s
+       8    5.5000000e+03   0.000000e+00   0.000000e+00      0s
+
+Solved in 8 iterations and 0.00 seconds
+Optimal objective  5.500000000e+03
+
+Optimization complete
+
+Variables:
+V Name      Value    Red. Cost
+Pencils_Detroit_Boston        50.0       0.0000
+Pencils_Detroit_New York         0.0       0.0000
+Pencils_Detroit_Seattle         0.0      50.0000
+Pencils_Denver_Boston         0.0      10.0000
+Pencils_Denver_New York        50.0       0.0000
+Pencils_Denver_Seattle        10.0       0.0000
+Pens_Detroit_Boston        30.0       0.0000
+Pens_Detroit_New York        30.0       0.0000
+Pens_Detroit_Seattle         0.0      90.0000
+Pens_Denver_Boston        10.0       0.0000
+Pens_Denver_New York         0.0      10.0000
+Pens_Denver_Seattle        30.0       0.0000
+
+Optimal objective: 5.5000e+03
+
+Constraints:
+ C Name     Slack    Dual Value
+supply_Pencils_Detroit      0.0     -20.0000
+supply_Pencils_Denver      0.0       0.0000
+supply_Pens_Detroit      0.0     -40.0000
+supply_Pens_Denver      0.0       0.0000
+demand_Pencils_Boston      0.0      30.0000
+demand_Pencils_New York      0.0      40.0000
+demand_Pencils_Seattle      0.0      30.0000
+demand_Pens_Boston      0.0      60.0000
+demand_Pens_New York      0.0      60.0000
+demand_Pens_Seattle      0.0      30.0000
+capacity_Detroit_Boston     20.0       0.0000
+capacity_Detroit_New York     50.0       0.0000
+capacity_Detroit_Seattle    120.0       0.0000
+capacity_Denver_Boston    110.0       0.0000
+capacity_Denver_New York     70.0       0.0000
+capacity_Denver_Seattle     80.0       0.0000
+
