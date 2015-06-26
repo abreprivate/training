@@ -10,11 +10,13 @@
 -- deploy to public server
 --- Google App Engine
 --- Heroku
+
 ## hdf5 format for mip solvers
 - Reference implementation(s)
 -- ANSI C
 -- pytables
 - tools for reading / visualizing
+
 ## New Language API
 ### Features
 - Works with multiple solvers
@@ -25,6 +27,7 @@
 - Higher level idiomatic abstractions
 - Cool and pragmatic visualizations
 - Client-server out of the box
+
 ### Target Languages
 - python (with numpy, ...)
 - C++0x
@@ -39,6 +42,7 @@
 -- Fortran 90
 -- Postgres
 -- neo4j
+
 ## Papers
 - Computational
 -- Find target paper
@@ -47,6 +51,7 @@
 -- Implement with IPython Notebook
 -- Add Gurobi
 -- Show improved results
+
 ## Other
 - diff tool for MIPs
 -- useful for regression / debugging
