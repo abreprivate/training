@@ -30,6 +30,7 @@
 
 ### Target Languages
 - python (with numpy, ...)
+- java
 - C++0x
 - C99
 - node.js (JavaScript)
