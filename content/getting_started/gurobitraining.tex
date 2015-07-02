@@ -32,7 +32,7 @@
 \item Solving LPs with Gurobi
     \begin{itemize}
     \item Interactive Shell (Python)
-    \item .NET Interface
+    \item Python Interface
     \end{itemize}
 \item LP Modeling Techniques
 \item Multi-Objective Optimization
@@ -228,7 +228,7 @@ Nutrient requirements: \\ Iron: 21, Calcium: 12
 \begin{frame}
 \frametitle{Solving with the Gurobi Interactive Shell}
 \begin{itemize}
-\item Objects and Methods you will need (.NET equivalent)
+\item Objects and Methods you will need (Python equivalent)
     \begin{itemize}
     \item Model (GRBModel)
         \begin{itemize}
@@ -304,47 +304,67 @@ Nutrient requirements: \\ Iron: 21, Calcium: 12
 \end{frame}
 
 \begin{frame} [containsverbatim]
-\frametitle{Diet Problem Implemented in .NET}
+\frametitle{Diet Problem Implemented in Python}
 \tiny
 \begin{verbatim}
-GRBEnv env = new GRBEnv();
-GRBModel m = new GRBModel(env);
-GRBVar x1 = m.AddVar(0, GRB.INFINITY, 20, GRB.CONTINUOUS, "food.1");
-GRBVar x2 = m.AddVar(0, GRB.INFINITY, 10, GRB.CONTINUOUS, "food.2");
-GRBVar x3 = m.AddVar(0, GRB.INFINITY, 31, GRB.CONTINUOUS, "food.3");
-GRBVar x4 = m.AddVar(0, GRB.INFINITY, 11, GRB.CONTINUOUS, "food.4");
-GRBVar x5 = m.AddVar(0, GRB.INFINITY, 12, GRB.CONTINUOUS, "food.5");
-m.Update();
-GRBConstr con1 = m.AddConstr(2 * x1 + 3 * x3 + 1 * x4 + 2 * x5 >= 21, "nutrient.iron");
-GRBConstr con2 = m.AddConstr(1 * x2 + 2 * x3 + 2 * x4 + 1 * x5 >= 12, "nutrient.calcium");
-m.Optimize();
-foreach (GRBVar var in m.GetVars())
-{
-    Console.WriteLine("{0} = {1}, reduced cost = {2}", var.Get(GRB.StringAttr.VarName),
-                      var.Get(GRB.DoubleAttr.X), var.Get(GRB.DoubleAttr.RC));
-}
+from gurobipy import *
 
-foreach (GRBConstr constr in m.GetConstrs())
-{
-    Console.WriteLine("{0}, slack = {1}, pi = {2}", constr.Get(GRB.StringAttr.ConstrName),
-                      constr.Get(GRB.DoubleAttr.Slack), constr.Get(GRB.DoubleAttr.Pi));
-}
+m = Model()
 
-m.Dispose();
-env.Dispose();
+x1 = m.addVar(lb=0, ub=GRB.INFINITY, obj=20, vtype=GRB.CONTINUOUS, name='x.1')
+x2 = m.addVar(obj=10, name='x.2')
+x3 = m.addVar(obj=31, name='x.3')
+x4 = m.addVar(obj=11, name='x.4')
+x5 = m.addVar(obj=12, name='x.5')
+print x1, x2, x3, x4, x5
+
+
+m.update()
+print x1, x2, x3, x4, x5
+
+lhs = 2*x1 + 3*x3 + x4 + 2*x5
+print lhs
+
+iron_constr = m.addConstr(lhs, GRB.GREATER_EQUAL, 21, 'nutrient.iron')
+calcium_constr = m.addConstr(x2 + 2*x3 + 2*x4 + x5 >= 12, 'nutrient.calcium')
+
+m.update()
+\end{verbatim}
+\end{frame}
+
+\begin{frame} [containsverbatim]
+\frametitle{Diet Problem Implemented in Python(CONT.)}
+\tiny
+\begin{verbatim}
+m.write('diet.lp')
+!type diet.lp
+
+m.optimize()
+m.write('diet.sol')
+!type diet.sol
+
+print x1.VarName, x1.X
+print x2.VarName, x2.X
+print x3.VarName, x3.X
+print x4.VarName, x4.X
+print x5.VarName, x5.X
+
+for var in m.getVars():
+    print var.VarName, var.X
+	
+print m.ObjVal
 \end{verbatim}
 \end{frame}
 
 \begin{frame}
-\frametitle{.NET Objects and Methods So Far}
+\frametitle{Python Objects and Methods So Far}
 \begin{itemize}
-\item GRBEnv()
-\item GRBModel(GRBEnv env)
-\item GRBModel.AddVar(double lb, double ub, double obj, char type, String name)
-\item GRBModel.AddConstr(GRBLinExpr lhs, char sense, GRBLinExpr rhs, String name)
-\item Get and Set methods access attributes of GRBModel, GRBVar, and GRBConstr objects
+\item Model(name, env)
+\item Model.AddVar(double lb, double ub, double obj, char type, String name)
+\item Model.AddConstr(GRBLinExpr lhs, char sense, GRBLinExpr rhs, String name)
+\item Get and Set methods access attributes of Model, Var, and Constr objects
 \item Attribute names must be preceded by GRB.DoubleAttr, GRB.IntAttr, GRB.CharAttr, or GRB.StringAttr
-\item GRBModel.GetVars(), GRBModel.GetConstrs()
+\item Model.GetVars(), Model.GetConstrs()
 \end{itemize}
 \end{frame}
 
