@@ -56,7 +56,30 @@ Including business analysis, modeling, and implementation.
 \end{frame}
 
 \begin{frame}
+\frametitle{Gurobi}
+Gurobi is a state-of-the-art solver for mathematical programming. It includes solvers for the following types of models:
+\begin{itemize}
+\item Linear Programming (LP)
+\item Mixed-Integer Linear Programming (MILP)
+\item Quadratic Programming (QP)
+\item Mixed-Integer Quadratic Programming (MIQP)
+\item Quadratically Constrained Programming (QCP)
+\item Mixed-Integer Quadratically Constrained Programming (MIQCP)
+\end{itemize}
+Here, ``program'' does not refer to a computer program but rather a schedule.
+\end{frame}
+
+\begin{frame}
+\frametitle{Gurobi}
+\begin{itemize}
+\item The problems Gurobi solves are all special cases of mathematical programs. 
+\item Before we discuss those special cases in detail, we should understand what a math program looks like and define some related terminology.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
 \frametitle{What is a Mathematical Program?}
+A math program consists of three components:
 \begin{itemize}
 \item Decision Variables (what you control)
 \item Constraints (rules you must follow)
@@ -105,7 +128,7 @@ b_i, \;\; i = 1, \ldots, m \nonumber \\
 \begin{frame}
 \frametitle{The Linear Program}
 \begin{eqnarray}
-z^* = \mbox{minimize:} && c_1 x_1 + c_2 x_2 + \cdots + c_n x_n \nonumber \\
+z^* = \min_x && c_1 x_1 + c_2 x_2 + \cdots + c_n x_n \nonumber \\
 \mbox{subject to:} &&a_{i1} x_1 + a_{i2} x_2 + \cdots + a_{in} x_n
 \begin{Bmatrix}   \le \\
                    \ge \\
@@ -125,7 +148,7 @@ z^* = \min_{x} && c^T x \nonumber \\
 \begin{frame}
 \frametitle{The Linear Program}
 \begin{eqnarray}
-z^* = \mbox{minimize:} && c_1 x_1 + c_2 x_2 + \cdots + c_n x_n \nonumber \\
+z^* = \min_x && c_1 x_1 + c_2 x_2 + \cdots + c_n x_n \nonumber \\
 \mbox{subject to:} &&a_{i1} x_1 + a_{i2} x_2 + \cdots + a_{in} x_n
 \begin{Bmatrix}   \le \\
                    \ge \\
@@ -148,7 +171,7 @@ b_i,\;\;i = 1,\ldots,m \nonumber \\
 \begin{frame}
 \frametitle{Linear Programming Axioms}
 \begin{eqnarray}
-z^* = \min / \max && c_1 x_1 + c_2 x_2 + \cdots + c_n x_n \nonumber \\
+z^* = \min_x && c_1 x_1 + c_2 x_2 + \cdots + c_n x_n \nonumber \\
 \mbox{subject to:} &&a_{i1} x_1 + a_{i2} x_2 + \cdots + a_{in} x_n
 \begin{Bmatrix}   \le \\
                    \ge \\
@@ -166,8 +189,37 @@ b_i,\;\;i = 1,\ldots,m \nonumber \\
 \end{frame}
 
 \begin{frame}
+\frametitle{Linear Programming Transformations}
+Gurobi will automatically perform the following transformations to get into standard form:
+\begin{itemize}
+\item Maximize by minimizing the negative
+    \begin{itemize}
+    \item $\max_x cx \Leftrightarrow \min_x -cx$
+    \end{itemize}
+\item Add a slack or surplus variable to convert inequality into equality
+    \begin{itemize}
+    \item $ax \ge b \Leftrightarrow ax - s = b, s \ge 0$
+    \item $ax \le b \Leftrightarrow ax + s = b, s \ge 0$    
+    \end{itemize}
+\item Write a variable that can be positive or negative as the difference of non-negative variables
+    \begin{itemize}
+    \item $x = x^+ - x^-$
+    \item $x^+, x^- \ge 0$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
 \frametitle{The Diet Problem}
-There are 5 types of food and two nutrient requirements that we must satisfy at minimum cost.
+\begin{itemize}
+\item Suppose you are trying to construct a diet out of a given set of foods, each with a different cost and nutritional composition, and wish to meet some minimum requirements of various nutrients.
+\item How can you find the combination of foods that meets all the nutrient requirements and minimizes cost?
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{The Diet Problem}
+Let's consider the following sample inputs where there are 5 types of food and 2 nutrient requirements.
 \begin{center}
 Units of nutrients and cost per ounce
 \begin{tabular} {c | c | c | c}
@@ -416,6 +468,27 @@ Until we arrive at an equivalent system with an obvious solution
 
 \begin{frame}
 \frametitle{Linear Programming Algebra}
+\begin{itemize}
+\item These row operations correspond to multiplying equations by constants and adding the result to other equations.
+\item ``Systematically'' performing row operations means picking an equation and solving for a specific variable, then eliminating that variable in all other equations.
+\item For a square system that has an equal number of variables and equations, it is relatively easy to decide which equation to solve and which variable to solve for.
+\item If the system has a unique solution, we can solve for the $i$th variable in the $i$th equation, swapping the order of equations as needed.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Linear Programming Algebra}
+Linear programs typically have:
+	\begin{itemize}
+	\item More variables than equations.
+	\item More than one feasible solution (almost always).
+	\item More than one optimal solution (more often than you might think).
+	\end{itemize}
+This being said, we can still solve LPs via systematic row operations, but the variable selection step is a little trickier.
+\end{frame}
+
+\begin{frame}
+\frametitle{Linear Programming Algebra}
 \tiny
 \begin{eqnarray}
 \max_{x,y} && 6x + 4y = z \nonumber \\
@@ -625,7 +698,12 @@ The diet problem, revisited:
 && 0x_1 + 1x_2 + 2x_3 + 2x_4 + 1x_5 \ge 12 \nonumber \\
 && x_j \ge 0,\;\;j=1,2,\ldots, 5 \nonumber
 \end{eqnarray}
-Suppose we have pills that contain a single unit of iron or calcium. How much would someone solving the diet problem be willing to pay for these pills?
+\begin{itemize}
+\item Let's take the perspective of a supplement vendor, who has pills that contain a single unit of iron or calcium that can be used to replace meals. 
+\item This vendor will attempt sell these pills to a dieter, and must determine the appropriate price to offer. 
+\item We'll assume the dieter knows how to solve the diet problem and will replace his optimal diet with pills but only if his cost does not increase.
+\item How does the vendor determine pill prices that maximize revenue and are competitive with the food types?
+\end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -846,7 +924,7 @@ Shipping cost $c_{ij}$ (\$/widget)
 \item Data
     \begin{itemize}
     \item $u_i$: capacity for warehouse $i$ (widgets)
-    \item $d_j$: demand at Customers $j$ (widgets)
+    \item $d_j$: demand at demand center $j$ (widgets)
     \item $c_{ij}$: shipping cost from warehouse $i$ to customer $j$ (\$/widget)
     \end{itemize}
 \item Decision Variables
