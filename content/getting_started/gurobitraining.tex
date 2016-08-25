@@ -462,7 +462,7 @@ Until we arrive at an equivalent system with an obvious solution
 \begin{eqnarray}
 1 x_1 + 0 x_2 + 0 x_3 &=& 2 \nonumber \\
 0 x_1 + 1 x_2 + 0 x_3 &=& 1 \nonumber \\
-0 x_1 + 0 x_2 + 1 x_3 &=& 1 \nonumber
+0 x_1 + 0 x_2 + 1 x_3 &=& -1 \nonumber
 \end{eqnarray}
 \end{frame}
 
@@ -872,7 +872,7 @@ if (m.get(GRB.IntAttr.Status) == GRB.OPTIMAL) {
     \end{itemize}
 \item Data
     \begin{itemize}
-    \item $c_j$: per ounce cost food type $j$
+    \item $c_j$: per ounce cost of food type $j$
     \item $a_{ij}$: quantity of nutrient $i$ per ounce of food type $j$
     \item $l_i$, $u_i$: min, max daily requirements for nutrient $i$
     \end{itemize}
