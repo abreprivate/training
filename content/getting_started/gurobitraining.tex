@@ -648,7 +648,7 @@ We iterated over basic feasible solutions $(0, 0, 6, 9, 16)$, $(9/2, 0, 3/2, 0, 
 \end{frame}
 
 \begin{frame}
-\frametitle{Linear Programming Solver}
+\frametitle{Linear Programming Solvers}
 \begin{itemize}
   \item Finds {\em \bf an} optimal solution if feasible region is non-empty and objective function is bounded
   \item Might be multiple optimal solutions
@@ -692,12 +692,6 @@ the less of an issue you will have with these realities.
 \begin{frame}
 \frametitle{Duality}
 The diet problem, revisited:
-\begin{eqnarray}
-\min_x && 20x_1 + 10x_2 + 31x_3 + 11x_4 + 12x_5 \nonumber \\
-\mbox{s.t.} && 2x_1 + 0x_2 + 3x_3 + 1x_4 + 2x_5 \ge 21 \nonumber \\
-&& 0x_1 + 1x_2 + 2x_3 + 2x_4 + 1x_5 \ge 12 \nonumber \\
-&& x_j \ge 0,\;\;j=1,2,\ldots, 5 \nonumber
-\end{eqnarray}
 \begin{itemize}
 \item Let's take the perspective of a supplement vendor, who has pills that contain a single unit of iron or calcium that can be used to replace meals. 
 \item This vendor will attempt sell these pills to a dieter, and must determine the appropriate price to offer. 
@@ -708,19 +702,36 @@ The diet problem, revisited:
 
 \begin{frame}
 \frametitle{Duality}
+\begin{columns}[t]
+\begin{column}{4cm}
+\begin{center}
+\begin{tabular} {c | c | c | c}
+Food & Iron & Calcium & Cost \\
+\hline
+1 & 2 & 0 & 20 \\
+2 & 0 & 1 & 10 \\
+3 & 3 & 2 & 31 \\
+4 & 1 & 2 & 11 \\
+5 & 2 & 1 & 12 \\
+\end{tabular}
+\end{center}
+Nutrient requirements: \\ Iron: 21, Calcium: 12
+\end{column}
+\begin{column}{6cm}
 \begin{itemize}
 \item Let $\pi_i, \pi_c$ be the price to be charged for an iron, calcium pill.
 \item We wish to maximize total revenue of $v = 21 \pi_i + 12 \pi_c$.
 \item We must charge prices that are competitive with the prices of the five food types.
     \begin{itemize}
-    \item Each ounce of food type 1 provides 2 units of iron at a cost of 20, so $2\pi_i \le 20$.
-    \item For food type 2, $\pi_c \le 10$.
-    \item For food type 3, $3\pi_i + 2\pi_c \le 31$.
-    \item For food type 4, $\pi_i + 2\pi_c \le 11$.
-    \item For food type 5, $2\pi_i + \pi_c \le 12$.
+    \item $2\pi_i \le 20$
+    \item $\pi_c \le 10$
+    \item $3\pi_i + 2\pi_c \le 31$
+    \item $\pi_i + 2\pi_c \le 11$
+    \item $2\pi_i + \pi_c \le 12$
     \end{itemize}
-\item We don't want to give away our pills, so $\pi_i, \pi_c \ge 0$.
 \end{itemize}
+\end{column}
+\end{columns}
 \end{frame}
 
 \begin{frame}
@@ -1011,6 +1022,26 @@ Penalize the first 20\% of demand shortfall at a rate $\rho$, and any additional
 0 \le y_j^2,\;\;j \in J, \nonumber
 \end{eqnarray}
 \noindent and add $\rho \sum_{j \in J} (y_j^1 + 1.5 y_j^2)$ to the objective.
+
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Piecewise Linear Penalties}
+\begin{itemize}
+\item Starting with 6.0, Gurobi provides a method Model.setPWLObj.
+\end{itemize}
+\begin{center}
+\includegraphics[scale=0.2]{piecewise_linear.png}
+\end{center}
+\begin{itemize}
+\item The above penalty function can be created in one call:
+\begin{itemize}
+\item model.setPWLObj(var, [0, 20, 40, 56], [0, 20, 60, 120])
+\end{itemize}
+\item No auxiliary variables are required.
+\item Note: If the objective function is not convex, the resulting model will be an Integer Program.
+\end{itemize}
 \end{frame}
 
 \begin{frame}
