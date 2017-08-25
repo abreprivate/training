@@ -1,0 +1,10 @@
+Visual Studio configuration for C# 
+
+
+Paths and Gurobi version may vary depending on your configuration.
+
+<project> -> References -> Add Reference -> /gurobi701/win64/bin/Gurobi70.NET.dll
+
+Add to Environment Variable "Path": /gurobi701/win64/bin
+(needed to find gurobi70.dll at runtime)
+
